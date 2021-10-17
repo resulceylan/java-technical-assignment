@@ -1,5 +1,7 @@
 package kata.supermarket;
 
+import kata.supermarket.discounts.DiscountType;
+import kata.supermarket.discounts.SuperMarketDiscountComponent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,10 +18,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BasketTest {
 
     @DisplayName("basket provides its total value when containing...")
-    @MethodSource
+    @MethodSource("basketProvidesTotalValue")
     @ParameterizedTest(name = "{0}")
     void basketProvidesTotalValue(String description, String expectedTotal, Iterable<Item> items) {
-        final Basket basket = new Basket();
+        final Basket basket = new Basket(new SuperMarketDiscountComponent());
+        items.forEach(basket::add);
+        assertEquals(new BigDecimal(expectedTotal), basket.total());
+    }
+
+    @DisplayName("basket provides its total value with buy one get one discount when containing...")
+    @MethodSource("basketProvidesTotalValueWithBuyOneGetOneDiscount")
+    @ParameterizedTest(name = "{0}")
+    void basketProvidesTotalValueWithBuyOneGetOneDiscount(String description, String expectedTotal, Iterable<Item> items) {
+        final DiscountComponent discountComponent = new SuperMarketDiscountComponent();
+        discountComponent.addDiscount(MILK_PRODUCT_ID, DiscountType.BUY_ONE_GET_ONE);
+        final Basket basket = new Basket(discountComponent);
         items.forEach(basket::add);
         assertEquals(new BigDecimal(expectedTotal), basket.total());
     }
@@ -31,6 +44,13 @@ class BasketTest {
                 multipleItemsPricedPerUnit(),
                 aSingleItemPricedByWeight(),
                 multipleItemsPricedByWeight()
+        );
+    }
+
+    static Stream<Arguments> basketProvidesTotalValueWithBuyOneGetOneDiscount() {
+        return Stream.of(
+                noItems(),
+                twoDiscountedPriceByUnitItems()
         );
     }
 
@@ -55,5 +75,9 @@ class BasketTest {
 
     private static Arguments noItems() {
         return Arguments.of("no items", "0.00", Collections.emptyList());
+    }
+
+    private static Arguments twoDiscountedPriceByUnitItems() {
+        return Arguments.of("two discounted price by unit items", "0.49", Arrays.asList(aPintOfMilk(), aPintOfMilk()));
     }
 }
