@@ -14,7 +14,8 @@ class WeighedProductTest {
     @ParameterizedTest
     @MethodSource
     void itemFromWeighedProductHasExpectedUnitPrice(String pricePerKilo, String weightInKilos, String expectedPrice) {
-        final WeighedProduct weighedProduct = new WeighedProduct(new BigDecimal(pricePerKilo));
+        final Integer WEIGHED_PRODUCT_ID = 1;
+        final WeighedProduct weighedProduct = new WeighedProduct(WEIGHED_PRODUCT_ID, new BigDecimal(pricePerKilo));
         final Item weighedItem = weighedProduct.weighing(new BigDecimal(weightInKilos));
         assertEquals(new BigDecimal(expectedPrice), weighedItem.price());
     }
