@@ -10,12 +10,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Stream;
 
+import static kata.supermarket.helpers.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BasketTest {
-
-    private static final Integer MILK_PRODUCT_ID = 1;
-    private static final Integer DIGESTIVES_PRODUCT_ID = 2;
 
     @DisplayName("basket provides its total value when containing...")
     @MethodSource
@@ -57,29 +55,5 @@ class BasketTest {
 
     private static Arguments noItems() {
         return Arguments.of("no items", "0.00", Collections.emptyList());
-    }
-
-    private static Item aPintOfMilk() {
-        return new Product(MILK_PRODUCT_ID, new BigDecimal("0.49")).oneOf();
-    }
-
-    private static Item aPackOfDigestives() {
-        return new Product(DIGESTIVES_PRODUCT_ID, new BigDecimal("1.55")).oneOf();
-    }
-
-    private static WeighedProduct aKiloOfAmericanSweets() {
-        return new WeighedProduct(new BigDecimal("4.99"));
-    }
-
-    private static Item twoFiftyGramsOfAmericanSweets() {
-        return aKiloOfAmericanSweets().weighing(new BigDecimal(".25"));
-    }
-
-    private static WeighedProduct aKiloOfPickAndMix() {
-        return new WeighedProduct(new BigDecimal("2.99"));
-    }
-
-    private static Item twoHundredGramsOfPickAndMix() {
-        return aKiloOfPickAndMix().weighing(new BigDecimal(".2"));
     }
 }
