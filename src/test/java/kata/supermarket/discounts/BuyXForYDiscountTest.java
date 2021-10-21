@@ -48,6 +48,17 @@ public class BuyXForYDiscountTest {
         assertEquals(new BigDecimal("0.98"), discount.getAmount());
     }
 
+    @Test
+    public void yyy() {
+        final Discount discount = new BuyXItemsForYPound(Arrays.asList(aPintOfMilk(),
+                aPintOfMilk(),
+                aPintOfMilk(),
+                aPintOfMilk(),
+                aPintOfMilk()
+                ), DISCOUNTED_PRODUCT_ID, 3, new BigDecimal(1));
+        assertEquals(new BigDecimal("0.47"), discount.getAmount());
+    }
+
     static Stream<Arguments> buyOneGetOneValues() {
         return Stream.of(noItems(),
                 aSingleItemPricedPerUnit(new BigDecimal("0.00")),
