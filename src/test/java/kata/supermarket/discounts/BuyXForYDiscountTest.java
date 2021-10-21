@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import kata.supermarket.Item;
+import kata.supermarket.WeighedProduct;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -57,6 +58,14 @@ public class BuyXForYDiscountTest {
                 aPintOfMilk()
                 ), DISCOUNTED_PRODUCT_ID, 3, new BigDecimal(1));
         assertEquals(new BigDecimal("0.47"), discount.getAmount());
+    }
+
+    @Test
+    public void zzz() {
+        final Discount discount = new BuyOneKiloHalfKiloFree(Arrays.asList(
+                new WeighedProduct(PICK_AND_MIX_PRODUCT_ID, new BigDecimal("2.99")).weighing(new BigDecimal("2.2"))
+        ), PICK_AND_MIX_PRODUCT_ID);
+        assertEquals(new BigDecimal("2.99"), discount.getAmount());
     }
 
     static Stream<Arguments> buyOneGetOneValues() {
