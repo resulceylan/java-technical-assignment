@@ -16,7 +16,10 @@ public class SuperMarketDiscountComponent implements DiscountComponent {
         discounts.forEach((productId, discountTypes) -> {
             discountTypes.forEach(discountType -> {
                 if (discountType == DiscountType.BUY_ONE_GET_ONE) {
-                    discountList.add(new BuyOneGetOneFreeDiscount(productId, items));
+                    discountList.add(new BuyXForYDiscount(items, productId, 2, 1));
+                }
+                if (discountType == DiscountType.BUY_THREE_FOR_TWO) {
+                    discountList.add(new BuyXForYDiscount(items, productId, 3, 2));
                 }
             });
         });
