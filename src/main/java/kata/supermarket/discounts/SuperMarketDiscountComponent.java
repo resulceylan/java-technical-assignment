@@ -17,6 +17,8 @@ public class SuperMarketDiscountComponent implements DiscountComponent {
             discountTypes.forEach(discountType -> {
                 if (discountType == DiscountType.BUY_ONE_GET_ONE) {
                     discountList.add(new BuyOneGetOneFreeDiscount(productId, items));
+                } else if (discountType == DiscountType.BUY_TWO_FOR_1_POUND) {
+                    discountList.add(new BuyTwoItemsFor1Pound(productId, items));
                 }
             });
         });
